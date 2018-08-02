@@ -157,4 +157,4 @@ for(i = 0; i < 1000; i++) {
 
 # Bonus
 
-General advice for whoever is reading this: pay attention in math classes! You never know when a math function will help you sort things out. ;)
+General advice for whoever is reading this: pay attention in math classes! You never know when a math function will help you sort things out. :wink:
