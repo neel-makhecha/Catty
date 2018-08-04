@@ -15,7 +15,7 @@ Sensors for the date (day, year, month) and time (hour, minute, second) were alr
 <br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/966/files](https://github.com/Catrobat/Catty/pull/966/files)<br> <br>
 These sensors refer to the (X, Y) position of an object on the screen, where (0,0) is right in the middle of the screen. Their values depend on the size of the screen and for both iOS and Android, the object can exit the screen (can be positioned somewhere outside of the screen).
 
-    On Android, the position (0, 0) is the center of the screen, whereas on iOS it is the point situated at the bottom left. To synchronize any point on the screen, it is enough to synchronize the bottom left so that it is situated in the middle, because the same function will shift all the other points. So how can a point (bottom left) be moved half to the right and half upwards (the middle of the screen). Exactly! All that is needed is to add to the coordinates half of the sizes of the screen, like this: ` f(x, y) = (x + width / 2, y + height / 2) `. The functios is correct because we have to move every point to the right and upwards, so this is why addition is needed (to the right, there are positive values, the same are upwards and the point was already situated at (0, 0)).  
+    On Android, the position (0, 0) is the center of the screen, whereas on iOS, the implementation for the app objects imposes that (0, 0) be situated at the bottom left. To synchronize any point on the screen, it is enough to synchronize the bottom left so that it is situated in the middle, because the same function will shift all the other points. So how can a point (bottom left) be moved half to the right and half upwards (the middle of the screen). Exactly! All that is needed is to add to the coordinates half of the sizes of the screen, like this: ` f(x, y) = (x + width / 2, y + height / 2) `. The functios is correct because we have to move every point to the right and upwards, so this is why addition is needed (to the right, there are positive values, the same are upwards and the point was already situated at (0, 0)).  
 
 3. **Background & Look numbers:**
 <br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/967/files](https://github.com/Catrobat/Catty/pull/967/files) <br> <br>
@@ -119,17 +119,27 @@ No conversion was needed here, as these sensors simply return the name of a back
 Pocket Code allows the user to connect an Arduino board or Phiro robot via Bluetooth and to program them by using the bricks available in the application. For these sensors I had to test that they are not shown in the bricks section if the user did not enable their usage in the settings of the app. I wrote tests when they were enabled and disabled and checked to see if they are available for use or not. There was no conversion needed for the Arduino pins, because their set values already match those on Android. 
 
 17. **Face detection**
-<br> You can check out the pull request here: []() <br> <br>
+<br> You can check out the pull request here: [TODO]() <br> <br>
 
 18. **Touch**
 <br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/996/files](https://github.com/Catrobat/Catty/pull/996/files) <br> <br>
+The touch sensors represented a group of four sensors: 
++ the sensor that shows if the screen is touched (1 = touched, 0 = not touched) (nothing to synchronize here)
++ the sensor which shows the X coordinates of the touch
++ the sensor which shows the Y coordinates of the touch
++ the sensor which counts the number of touches
+
+In order to synchronize the touch counter sensor, I noticed that a single touch on iOS increased the value with two, not with just one. This being stated, I has to divide the value by 2 and to convert it to integer, because sometimes, for less than a second, the counter reached an odd number (and it would faintly show, for example, the 2.5th touch). 
+
+As for touch coordinates, on Android, the (0, 0) position is in the middle of the screen, whereas on iOS, the top left corner represents the coordinates (0, 0) and the bottom right represents the coordinates (screenWidth, screenHeight) for any device. I made use of the already syncrhonized position sensors (number 2) and, since (0, 0) position is at the bottom left and (0, 0)) touch is at top left, I could conclude that touchX = positionX, but touchY = -positionY. In this manner, the sensors are behaving alike on both operating systems.  
+
 
 19. **Math**
 <br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/1000/files](https://github.com/Catrobat/Catty/pull/1000/files) <br> <br>
 I had to make sure that the math functions (sin, cos, ln etc.) showed the same default value like on Android and that they also computed to the same value.
 
 20. **String**
-<br> You can check out the pull request here: [TODO]() <br> <br>
+<br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/1001/files](https://github.com/Catrobat/Catty/pull/1001) <br> <br>
 I had to make sure that the string functions (join, length and letter) showed the same default value like on Android and that they also computed to the same value.
 
 21. **List**
