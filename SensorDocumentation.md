@@ -120,7 +120,7 @@ No conversion was needed here, as these sensors simply return the name of a back
 Pocket Code allows the user to connect an Arduino board or to a robot via Bluetooth and to program them by using the bricks available in the application. For these sensors I had to test that they are not shown in the bricks section if the user did not enable their usage in the settings of the app. I wrote tests when they were enabled and disabled and checked to see if they are available for use or not. There was no conversion needed for the Arduino pins, because their set values already match those on Catroid. 
 
 17. **Face detection**
-<br> You can check out the pull request here: [In development]() <br> <br>
+<br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/1011/files(https://github.com/Catrobat/Catty/pull/1011/files) <br> <br>
 
 18. **Touch**
 <br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/996/files](https://github.com/Catrobat/Catty/pull/996/files) <br> <br>
@@ -142,7 +142,7 @@ I had to make sure that the math functions (sin, cos, ln etc.) showed the same d
 I had to make sure that the string functions (join, length and letter) showed the same default value like on Catroid and that they also computed to the same value.
 
 21. **List**
-<br> You can check out the pull request here: [In development]() <br> <br>
+<br> You can check out the pull request here: [https://github.com/Catrobat/Catty/pull/1012/files](https://github.com/Catrobat/Catty/pull/1012/files) <br> <br>
 I had to make sure that the list functions (number_of_elements, element, contains) showed the same default value like on Catroid and that they also computed to the same value.
 
 # Other things I did
@@ -154,7 +154,6 @@ Among my tasks, I had a few Objective C to Swift code conversions and refactorin
 [New sensor protocol](https://github.com/Catrobat/Catty/pull/992/files) <br> 
 [Simplify sensor protocol](https://github.com/Catrobat/Catty/pull/994/files) <br>
 [Compute button continuous - In development]() <br> 
-[Swift conversion for future refactoring - In development]() <br>
 
 # What I learnt
 
