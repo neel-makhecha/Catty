@@ -34,7 +34,8 @@ extension ChangeXByNBrick: CBInstructionProtocol {
 
         return {
             let xMov = formulaInterpreter.interpretDouble(xMovement, for: object)
-            spriteNode.catrobatPositionX += xMov
+            //spriteNode.catrobatPositionX += xMov
+            spriteNode.setCatrobatPosition(positionX: spriteNode.catrobatPositionX + xMov as NSNumber, positionY: nil)
         }
     }
 }

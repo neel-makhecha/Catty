@@ -32,8 +32,9 @@
             else { fatalError("This should never happen!") }
 
         return {
-            spriteNode.catrobatPositionX = formulaInterpreter.interpretDouble(self.xPosition, for: object)
-            spriteNode.catrobatPositionY = formulaInterpreter.interpretDouble(self.yPosition, for: object)
+
+            spriteNode.setCatrobatPosition(positionX: formulaInterpreter.interpretDouble(self.xPosition, for: object) as NSNumber,
+                                           positionY: formulaInterpreter.interpretDouble(self.yPosition, for: object) as NSNumber)
         }
     }
 }

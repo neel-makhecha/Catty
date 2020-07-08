@@ -40,9 +40,7 @@
             let xPosition = spriteNode.catrobatPositionX + (steps * sin(rotationRadians))
             let yPosition = spriteNode.catrobatPositionY + (steps * cos(rotationRadians))
 
-            spriteNode.catrobatPositionX = xPosition
-            spriteNode.catrobatPositionY = yPosition
-
+            spriteNode.setCatrobatPosition(positionX: xPosition as NSNumber, positionY: yPosition as NSNumber)
         }
     }
 }

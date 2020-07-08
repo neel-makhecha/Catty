@@ -23,7 +23,7 @@
 @objc extension CBSpriteNode {
 
     // Computed properties to get and set values within the standardized range
-    var catrobatPosition: CGPoint {
+    private(set) var catrobatPosition: CGPoint {
         set {
             PositionXSensor.setRawValue(userInput: Double(newValue.x), for: self.spriteObject)
             PositionYSensor.setRawValue(userInput: Double(newValue.y), for: self.spriteObject)
@@ -33,12 +33,12 @@
         }
     }
 
-    var catrobatPositionX: Double {
+    private(set) var catrobatPositionX: Double {
         set { PositionXSensor.setRawValue(userInput: newValue, for: self.spriteObject) }
         get { PositionXSensor.standardizedValue(for: self.spriteObject) }
     }
 
-    var catrobatPositionY: Double {
+    private(set) var catrobatPositionY: Double {
         set { PositionYSensor.setRawValue(userInput: newValue, for: self.spriteObject) }
         get { PositionYSensor.standardizedValue(for: self.spriteObject) }
     }
@@ -71,5 +71,22 @@
     var catrobatColor: Double {
         set { ColorSensor.setRawValue(userInput: newValue, for: self.spriteObject) }
         get { ColorSensor.standardizedValue(for: self.spriteObject) }
+    }
+
+    func setCatrobatPosition(position: CGPoint) {
+        self.catrobatPosition = position
+        self.update(CACurrentMediaTime())
+    }
+
+    func setCatrobatPosition(positionX x: NSNumber?, positionY y: NSNumber?) {
+        if let positionX = x {
+            self.catrobatPositionX = Double(truncating: positionX)
+        }
+
+        if let positionY = y {
+            self.catrobatPositionY = Double(truncating: positionY)
+        }
+
+        self.update(CACurrentMediaTime())
     }
 }

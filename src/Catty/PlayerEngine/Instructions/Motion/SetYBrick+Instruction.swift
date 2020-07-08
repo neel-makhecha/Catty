@@ -33,7 +33,7 @@
 
         return {
             let positionY = formulaInterpreter.interpretDouble(self.yPosition, for: object)
-            spriteNode.catrobatPositionY = positionY
+            spriteNode.setCatrobatPosition(positionX: nil, positionY: positionY as NSNumber)
         }
     }
 }

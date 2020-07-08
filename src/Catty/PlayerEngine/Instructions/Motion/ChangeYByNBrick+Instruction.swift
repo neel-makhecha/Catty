@@ -34,7 +34,8 @@ extension ChangeYByNBrick: CBInstructionProtocol {
 
         return {
             let yMov = formulaInterpreter.interpretDouble(yMovement, for: object)
-            spriteNode.catrobatPositionY += yMov
+            //spriteNode.catrobatPositionY += yMov
+            spriteNode.setCatrobatPosition(positionX: nil, positionY: spriteNode.catrobatPositionY + yMov as NSNumber)
         }
     }
 }

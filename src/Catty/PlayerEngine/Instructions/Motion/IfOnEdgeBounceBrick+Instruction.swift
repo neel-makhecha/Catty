@@ -78,8 +78,7 @@
             }
 
             spriteNode.catrobatRotation = rotation
-            spriteNode.catrobatPositionX = Double(xPosition)
-            spriteNode.catrobatPositionY = Double(yPosition)
+            spriteNode.setCatrobatPosition(positionX: xPosition as NSNumber, positionY: yPosition as NSNumber)
         }
     }
 
