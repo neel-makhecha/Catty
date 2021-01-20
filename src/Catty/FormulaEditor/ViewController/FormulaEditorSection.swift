@@ -21,10 +21,10 @@
  */
 
 enum FormulaEditorSection {
-    case math(position: Int)
-    case logic(position: Int)
-    case device(position: Int)
-    case object(position: Int)
+    case math(position: Int, subsection: MathSubsection = .none)
+    case logic(position: Int, subsection: LogicSubsection = .none)
+    case device(position: Int, subsection: DeviceSubsection = .none)
+    case object(position: Int, subsection: ObjectSubsection = .none)
 }
 
 extension FormulaEditorSection: Equatable {
@@ -49,17 +49,57 @@ extension FormulaEditorSection: Equatable {
 
     func position() -> Int {
         switch self {
-        case let .device(position):
+        case let .device(position, _):
             return position
 
-        case let .math(position):
+        case let .math(position, _):
             return position
 
-        case let .logic(position):
+        case let .logic(position, _):
             return position
 
-        case let .object(position):
+        case let .object(position, _):
             return position
+        }
+    }
+
+    func mathSubsection() -> MathSubsection? {
+        switch self {
+        case let .math(_, subsection):
+            return subsection
+
+        default:
+            return nil
+        }
+    }
+
+    func objectSubsection() -> ObjectSubsection? {
+        switch self {
+        case let .object(position: _, subsection: subsection):
+            return subsection
+
+        default:
+            return nil
+        }
+    }
+
+    func logicSubsection() -> LogicSubsection? {
+        switch self {
+        case let .logic(position: _, subsection: subsection):
+            return subsection
+
+        default:
+            return nil
+        }
+    }
+
+    func deviceSubsection() -> DeviceSubsection? {
+        switch self {
+        case let .device(position: _, subsection: subsection):
+            return subsection
+
+        default:
+            return nil
         }
     }
 }

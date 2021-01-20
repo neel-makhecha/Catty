@@ -49,6 +49,6 @@ class PowerFunction: DoubleParameterDoubleFunction {
     }
 
     func formulaEditorSections() -> [FormulaEditorSection] {
-        [.math(position: type(of: self).position)]
+        [.math(position: type(of: self).position, subsection: .maths)]
     }
 }

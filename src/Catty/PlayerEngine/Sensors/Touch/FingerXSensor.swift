@@ -49,6 +49,6 @@
     }
 
     func formulaEditorSections(for spriteObject: SpriteObject) -> [FormulaEditorSection] {
-        [.device(position: type(of: self).position)]
+        [.device(position: type(of: self).position, subsection: .touch)]
     }
 }

@@ -49,25 +49,34 @@ extension FormulaManager {
         for item in allItems {
             for section in item.sections {
                 switch section {
-                case let .math(position):
+                case let .math(position, _):
                     if mathSection {
                         items += (position, item)
                     }
-                case let .logic(position):
+
+                case let .logic(position, _):
+
                     if logicSection {
                         items += (position, item)
                     }
-                case let .object(position):
+
+                case let .object(position, _):
+
                     if objectSection {
                         items += (position, item)
                     }
-                case let .device(position):
+
+                case let .device(position, _):
+
                     if deviceSection {
                         items += (position, item)
                     }
+
                 }
             }
         }
+
         return items.sorted { $0.0 < $1.0 }.map { $0.1 }
     }
+
 }

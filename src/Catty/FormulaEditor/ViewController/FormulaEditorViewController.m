@@ -70,12 +70,12 @@ NS_ENUM(NSInteger, ButtonIndex) {
 
 
 @property (weak, nonatomic) IBOutlet UIButton *calcButton;
-@property (weak, nonatomic) IBOutlet UIButton *mathbutton;
+@property (weak, nonatomic) IBOutlet UIButton *functionsButton;
 @property (weak, nonatomic) IBOutlet UIButton *logicButton;
 @property (weak, nonatomic) IBOutlet UIButton *objectButton;
 @property (weak, nonatomic) IBOutlet UIButton *sensorButton;
 @property (weak, nonatomic) IBOutlet ShapeButton *deleteButton;
-@property (weak, nonatomic) IBOutlet UIButton *variableButton;
+@property (weak, nonatomic) IBOutlet UIButton *dataButton;
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
 @property (weak, nonatomic) IBOutlet UIButton *undoButton;
@@ -93,6 +93,7 @@ NS_ENUM(NSInteger, ButtonIndex) {
 
 @property (nonatomic) BOOL isProjectVariable;
 @property (nonatomic, strong) BDKNotifyHUD *notficicationHud;
+@property (strong, nonatomic) FormulaEditorPopOver *formulaEditorPopOver;
 
 @property (nonatomic) BOOL isScrolling;
 
@@ -206,11 +207,6 @@ NS_ENUM(NSInteger, ButtonIndex) {
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     [self showFormulaEditor];
     
-    [self.normalTypeButton addObjectsFromArray:[self initMathSectionWithScrollView:self.mathScrollView buttonHeight:self.calcButton.frame.size.height]];
-    [self.normalTypeButton addObjectsFromArray:[self initLogicSectionWithScrollView:self.logicScrollView buttonHeight:self.calcButton.frame.size.height]];
-    [self.normalTypeButton addObjectsFromArray:[self initObjectSectionWithScrollView:self.objectScrollView buttonHeight:self.calcButton.frame.size.height]];
-    [self.normalTypeButton addObjectsFromArray:[self initSensorSectionWithScrollView:self.sensorScrollView buttonHeight:self.calcButton.frame.size.height]];
-    
     [self initSegmentedControls];
     [self colorFormulaEditor];
     [self hideScrollViews];
@@ -264,6 +260,14 @@ NS_ENUM(NSInteger, ButtonIndex) {
     
     [self.variablePicker addGestureRecognizer:tapToSelect];
     [self.variablePicker addGestureRecognizer:panRecognizer];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"iPhone" bundle:nil];
+    self.formulaEditorPopOver = [storyboard instantiateViewControllerWithIdentifier:@"forumlaEditorPopOver"];
+    self.formulaEditorPopOver.modalPresentationStyle = UIModalPresentationPopover;
+    self.formulaEditorPopOver.formulaManager = _formulaManager;
+    self.formulaEditorPopOver.spriteObject = _object;
+    self.formulaEditorPopOver.formulaEditorVC = self;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -349,11 +353,11 @@ NS_ENUM(NSInteger, ButtonIndex) {
 - (void)localizeView
 {
     [self.calcButton setTitle:kUIFENumbers forState:UIControlStateNormal];
-    [self.mathbutton setTitle:kUIFEMath forState:UIControlStateNormal];
+    [self.functionsButton setTitle:kUIFEFunctions forState:UIControlStateNormal];
     [self.logicButton setTitle:kUIFELogic forState:UIControlStateNormal];
     [self.objectButton setTitle:kUIFEObject forState:UIControlStateNormal];
     [self.sensorButton setTitle:kUIFESensor forState:UIControlStateNormal];
-    [self.variableButton setTitle:kUIFEVariableList forState:UIControlStateNormal];
+    [self.dataButton setTitle:kUIFEData forState:UIControlStateNormal];
     [self.computeButton setTitle:kUIFECompute forState:UIControlStateNormal];
     [self.doneButton setTitle:kUIFEDone forState:UIControlStateNormal];
     [self.variable setTitle:kUIFEVar forState:UIControlStateNormal];
@@ -716,39 +720,24 @@ NS_ENUM(NSInteger, ButtonIndex) {
     [self.calcScrollView scrollsToTop];
 }
 - (IBAction)showFunction:(UIButton *)sender {
-    [self hideScrollViews];
-    self.mathScrollView.hidden = NO;
-    [self.mathbutton setSelected:YES];
-    [self.mathScrollView scrollsToTop];
-    [self.mathScrollView flashScrollIndicators];
+    self.formulaEditorPopOver.formulaPopOverType = FormulaPopOverTypeFunctions;
+    [self presentViewController:self.formulaEditorPopOver animated:true completion:nil];
 }
 - (IBAction)showLogic:(UIButton *)sender {
-    [self hideScrollViews];
-    self.logicScrollView.hidden = NO;
-    [self.logicButton setSelected:YES];
-    [self.logicScrollView scrollsToTop];
-    [self.logicScrollView flashScrollIndicators];
+    self.formulaEditorPopOver.formulaPopOverType = FormulaPopOverTypeLogic;
+    [self presentViewController:self.formulaEditorPopOver animated:true completion:nil];
 }
 - (IBAction)showObject:(UIButton *)sender {
-    [self hideScrollViews];
-    self.objectScrollView.hidden = NO;
-    [self.objectButton setSelected:YES];
-    [self.objectScrollView scrollsToTop];
-    [self.objectScrollView flashScrollIndicators];
+    self.formulaEditorPopOver.formulaPopOverType = FormulaPopOverTypeObject;
+    [self presentViewController:self.formulaEditorPopOver animated:true completion:nil];
 }
 - (IBAction)showSensor:(UIButton *)sender {
-    [self hideScrollViews];
-    self.sensorScrollView.hidden = NO;
-    [self.sensorButton setSelected:YES];
-    [self.sensorScrollView scrollsToTop];
-    [self.sensorScrollView flashScrollIndicators];
+    self.formulaEditorPopOver.formulaPopOverType = FormulaPopOverTypeSensors;
+    [self presentViewController:self.formulaEditorPopOver animated:true completion:nil];
 }
 - (IBAction)showVariable:(UIButton *)sender {
-  [self hideScrollViews];
-  self.variableScrollView.hidden = NO;
-  [self.variableButton setSelected:YES];
-  [self.variableScrollView scrollsToTop];
-  [self.variableScrollView flashScrollIndicators];
+    self.formulaEditorPopOver.formulaPopOverType = FormulaPopOverTypeData;
+    [self presentViewController:self.formulaEditorPopOver animated:true completion:nil];
 }
 
 - (void)hideScrollViews
@@ -760,11 +749,11 @@ NS_ENUM(NSInteger, ButtonIndex) {
     self.sensorScrollView.hidden = YES;
     self.variableScrollView.hidden = YES;
     [self.calcButton setSelected:NO];
-    [self.mathbutton setSelected:NO];
+    [self.functionsButton setSelected:NO];
     [self.objectButton setSelected:NO];
     [self.logicButton setSelected:NO];
     [self.sensorButton setSelected:NO];
-    [self.variableButton setSelected:NO];
+    [self.dataButton setSelected:NO];
 }
 
 - (void)addNewVariable: (BOOL)isProjectVariable
